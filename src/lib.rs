@@ -1,6 +1,12 @@
+use std::error::Error;
+
 use astc_decode::{astc_decode, Footprint};
 use lz4_flex::decompress;
 use wasm_bindgen::prelude::*;
+
+fn to_js_err(e: impl Error) -> JsError {
+    JsError::new(&e.to_string())
+}
 
 #[wasm_bindgen(js_name = decodeAstc)]
 pub fn decode_astc(
@@ -23,11 +29,11 @@ pub fn decode_astc(
 
     match astc_result {
         Ok(()) => Ok(result),
-        Err(e) => Err(JsError::new(&e.to_string())),
+        Err(e) => Err(to_js_err(e)),
     }
 }
 
 #[wasm_bindgen(js_name = decompressLz4)]
 pub fn decompress_lz4(data: &[u8], size: usize) -> Result<Vec<u8>, JsError> {
-    decompress(data, size).map_err(|e| JsError::new(&e.to_string()))
+    decompress(data, size).map_err(to_js_err)
 }
