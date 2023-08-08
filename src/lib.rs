@@ -1,29 +1,38 @@
+mod tools;
+
 use lz4_flex::decompress;
-use texture2ddecoder::decode_astc;
+use texture2ddecoder::*;
+use tools::*;
 use wasm_bindgen::prelude::*;
 
-fn to_js_err(e: impl ToString) -> JsError {
-    JsError::new(&e.to_string())
-}
+// ATC
+export_decode_texture!("decodeAtcRgb4", decode_atc_rgb4);
+export_decode_texture!("decodeAtcRgba8", decode_atc_rgba8);
 
-fn image_to_rgba(image: Vec<u32>, width: usize, height: usize) -> Vec<u8> {
-    let mut lines: Vec<&[u32]> = Vec::with_capacity(height);
-    for i in 0..height {
-        let start = i * width;
-        lines.push(&image[start..start + width]);
-    }
-    lines
-        .iter()
-        .copied()
-        .rev()
-        .flatten()
-        .flat_map(|x| {
-            let v = x.to_le_bytes();
-            [v[2], v[1], v[0], v[3]]
-        })
-        .collect::<Vec<u8>>()
-}
+// BCn
+export_decode_texture!("decodeBc1", decode_bc1);
+export_decode_texture!("decodeBc3", decode_bc3);
+export_decode_texture!("decodeBc4", decode_bc4);
+export_decode_texture!("decodeBc5", decode_bc5);
+export_decode_texture!("decodeBc6Signed", decode_bc6_signed);
+export_decode_texture!("decodeBc6Unsigned", decode_bc6_unsigned);
+export_decode_texture!("decodeBc7", decode_bc7);
 
+// ETC
+export_decode_texture!("decodeEtc1", decode_etc1);
+export_decode_texture!("decodeEtc2Rgb", decode_etc2_rgb);
+export_decode_texture!("decodeEtc2Rgba1", decode_etc2_rgba1);
+export_decode_texture!("decodeEtc2Rgba8", decode_etc2_rgba8);
+export_decode_texture!("decodeEacr", decode_eacr);
+export_decode_texture!("decodeEacrSigned", decode_eacr_signed);
+export_decode_texture!("decodeEacrg", decode_eacrg);
+export_decode_texture!("decodeEacrgSigned", decode_eacrg_signed);
+
+// PVRTC
+export_decode_texture!("decodePvrtc2bpp", decode_pvrtc_2bpp);
+export_decode_texture!("decodePvrtc4bpp", decode_pvrtc_4bpp);
+
+// ASTC
 #[wasm_bindgen(js_name = decodeAstc)]
 pub fn export_decode_astc(
     data: &[u8],
@@ -42,6 +51,7 @@ pub fn export_decode_astc(
     }
 }
 
+// LZ4
 #[wasm_bindgen(js_name = decompressLz4)]
 pub fn export_decompress_lz4(data: &[u8], size: usize) -> Result<Vec<u8>, JsError> {
     decompress(data, size).map_err(to_js_err)
