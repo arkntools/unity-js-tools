@@ -1,6 +1,7 @@
 mod tools;
 
 use lz4_flex::decompress;
+use lz4_flex::block::decompress_size_prepended;
 use texture2ddecoder::*;
 use tools::*;
 use wasm_bindgen::prelude::*;
@@ -55,4 +56,8 @@ pub fn export_decode_astc(
 #[wasm_bindgen(js_name = decompressLz4)]
 pub fn export_decompress_lz4(data: &[u8], size: usize) -> Result<Vec<u8>, JsError> {
     decompress(data, size).map_err(to_js_err)
+}
+#[wasm_bindgen(js_name = decompressLz4SizePrepended)]
+pub fn export_decompress_lz4_size_prepended(data: &[u8]) -> Result<Vec<u8>, JsError> {
+    decompress_size_prepended(data).map_err(to_js_err)
 }
