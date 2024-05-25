@@ -6,21 +6,10 @@ pub fn to_js_err(e: impl ToString) -> JsError {
     JsError::new(&e.to_string())
 }
 
-pub fn image_to_rgba(image: Vec<u32>, width: usize, height: usize) -> Vec<u8> {
-    let mut lines: Vec<&[u32]> = Vec::with_capacity(height);
-    for i in 0..height {
-        let start = i * width;
-        lines.push(&image[start..start + width]);
-    }
-    lines
-        .iter()
-        .copied()
-        .rev()
-        .flatten()
-        .flat_map(|x| {
-            let v = x.to_le_bytes();
-            [v[2], v[1], v[0], v[3]]
-        })
+pub fn split_channel(image: Vec<u32>) -> Vec<u8> {
+    image
+        .into_iter()
+        .flat_map(|x| x.to_le_bytes())
         .collect::<Vec<u8>>()
 }
 
@@ -35,7 +24,7 @@ pub fn decode_texture(
     let result = decode_func(data, width, height, &mut image);
 
     match result {
-        Ok(()) => Ok(image_to_rgba(image, width, height)),
+        Ok(()) => Ok(split_channel(image)),
         Err(e) => Err(to_js_err(e)),
     }
 }

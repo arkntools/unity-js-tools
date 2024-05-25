@@ -47,7 +47,7 @@ pub fn export_decode_astc(
     let result = decode_astc(data, width, height, block_width, block_height, &mut image);
 
     match result {
-        Ok(()) => Ok(image_to_rgba(image, width, height)),
+        Ok(()) => Ok(split_channel(image)),
         Err(e) => Err(to_js_err(e)),
     }
 }
