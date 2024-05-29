@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "esm-to-cjs": "^1.2.1"
+  }
+}
