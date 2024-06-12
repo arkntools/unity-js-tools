@@ -1,6 +1,12 @@
 {
   "name": "@arkntools/unity-js-tools",
   "description": "Tools for @arkntools/unity-js",
+  "author": "神代綺凛 <i@loli.best>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arkntools/unity-js-tools"
+  },
   "main": "index.js",
   "types": "index.d.js",
   "scripts": {
