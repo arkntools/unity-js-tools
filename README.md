@@ -2,7 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/@arkntools/unity-js-tools?style=flat-square)](https://www.npmjs.com/package/@arkntools/unity-js-tools)
 
-Some tools for [unity-js](https://github.com/arkntools/unity-js), compiled from Rust to WASM.
+Some tools for [unity-js](https://github.com/arkntools/unity-js), compiled from Rust to Wasm.
 
 ## Include
 
