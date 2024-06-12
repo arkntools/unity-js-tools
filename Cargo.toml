@@ -1,6 +1,6 @@
 [package]
 name = "unity-js-tools-wasm"
-version = "3.0.0"
+version = "3.1.0"
 edition = "2021"
 authors = ["神代綺凛 <i@loli.best>"]
 license = "MIT"
