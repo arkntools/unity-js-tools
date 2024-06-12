@@ -6,6 +6,7 @@ authors = ["神代綺凛 <i@loli.best>"]
 license = "MIT"
 description = "Wasm tools for @arkntools/unity-js"
 repository = "https://github.com/arkntools/unity-js-tools"
+keywords = ["unity", "assetbundle"]
 
 [profile.release]
 lto = true

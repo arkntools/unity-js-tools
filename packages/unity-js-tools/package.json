@@ -7,6 +7,10 @@
     "type": "git",
     "url": "https://github.com/arkntools/unity-js-tools"
   },
+  "keywords": [
+    "unity",
+    "assetbundle"
+  ],
   "main": "index.js",
   "types": "index.d.js",
   "scripts": {
