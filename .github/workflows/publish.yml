@@ -16,17 +16,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
       - name: Setup wasm-pack
         uses: jetli/wasm-pack-action@v0.4.0
       - name: Build
         run: |
-          yarn install --frozen-lockfile
-          ./scripts/build.sh
-      - name: Publish
+          bun install --frozen-lockfile
+          bun run build
+      - name: Publish unity-js-tools-wasm
         uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
-          package: ./pkg
+          package: ./packages/unity-js-tools-wasm
+          access: public
+          provenance: true
+      - name: Publish unity-js-tools
+        uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: ./packages/unity-js-tools/dist
           access: public
           provenance: true
       - name: Release

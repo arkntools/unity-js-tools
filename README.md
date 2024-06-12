@@ -2,13 +2,21 @@
 
 [![NPM version](https://img.shields.io/npm/v/@arkntools/unity-js-tools?style=flat-square)](https://www.npmjs.com/package/@arkntools/unity-js-tools)
 
-一些给 [unity-js](https://github.com/arkntools/unity-js) 用的工具方法，从 rust 编译为 wasm
+Some tools for [unity-js](https://github.com/arkntools/unity-js), compiled from Rust to WASM.
 
-## 包含功能
+## Include
 
 - [PSeitz/lz4_flex](https://github.com/PSeitz/lz4_flex)
 - [UniversalGameExtraction/texture2ddecoder](https://github.com/UniversalGameExtraction/texture2ddecoder)
 
-## 注意
+## Notice
 
-wasm-bindgen 貌似有某种缺陷，rust 中极少数位运算场合编译成 wasm 后运算结果不正确，这导致 `decodeEtc2Rgba8` 解码后 alpha 通道数值错误，需要手动实现来修正，不排除还有其他情况有问题
+wasm-bindgen seems to have some kind of flaw that causes bit operations to be incorrect in rare cases.
+
+This causes some texture decoding methods need to be manually implemented some parts to modify its results.
+
+The following methods have been fixed:
+
+- `decodeEtc2Rgba8`
+
+Be careful, maybe there will be errors in other methods but have not been found yet.

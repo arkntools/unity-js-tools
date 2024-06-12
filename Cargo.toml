@@ -1,10 +1,10 @@
 [package]
-name = "unity-js-tools"
+name = "unity-js-tools-wasm"
 version = "3.0.0"
 edition = "2021"
 authors = ["神代綺凛 <i@loli.best>"]
 license = "MIT"
-description = "Tools for arkntools/unity-js"
+description = "Wasm tools for @arkntools/unity-js"
 repository = "https://github.com/arkntools/unity-js-tools"
 
 [profile.release]

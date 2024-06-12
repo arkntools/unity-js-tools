@@ -1,0 +1,16 @@
+{
+  "name": "@arkntools/unity-js-tools",
+  "description": "Tools for @arkntools/unity-js",
+  "main": "index.js",
+  "types": "index.d.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@arkntools/unity-js-tools-wasm": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.4.5"
+  }
+}

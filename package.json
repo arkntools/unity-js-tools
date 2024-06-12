@@ -1,5 +1,22 @@
 {
-  "dependencies": {
-    "esm-to-cjs": "^1.2.1"
+  "name": "unity-js-tools",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "clean": "rimraf packages/unity-js-tools-wasm/* packages/unity-js-tools/dist",
+    "build": "run-s clean build:wasm-* build:main",
+    "build:wasm-node": "wasm-pack build --release --target nodejs --out-name index --scope arkntools --out-dir packages/unity-js-tools-wasm",
+    "build:wasm-web": "wasm-pack build --release --target web --out-name index --out-dir packages/unity-js-tools-wasm/web",
+    "postbuild:wasm-web": "node scripts/postbuild-wasm-web.js",
+    "build:main": "cd packages/unity-js-tools && npm run build",
+    "postbuild:main": "node scripts/postbuild-main.js",
+    "prebuild": "git -v && git update-index --skip-worktree packages/unity-js-tools-wasm/package.json || true"
+  },
+  "devDependencies": {
+    "esm-to-cjs": "^1.2.1",
+    "npm-run-all2": "^6.2.0",
+    "rimraf": "^5.0.7"
   }
 }
