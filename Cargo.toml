@@ -18,6 +18,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 lz4_flex = "0.11.3"
+lzma-rs = "0.3.0"
 paste = "1.0.15"
 texture2ddecoder = "0.0.5"
 wasm-bindgen = "0.2.92"

@@ -1,7 +1,7 @@
 mod tools;
 
-use lz4_flex::decompress;
-use lz4_flex::block::decompress_size_prepended;
+use std::io::Cursor;
+
 use texture2ddecoder::*;
 use tools::*;
 use wasm_bindgen::prelude::*;
@@ -55,9 +55,36 @@ pub fn export_decode_astc(
 // LZ4
 #[wasm_bindgen(js_name = decompressLz4)]
 pub fn export_decompress_lz4(data: &[u8], size: usize) -> Result<Vec<u8>, JsError> {
-    decompress(data, size).map_err(to_js_err)
+    lz4_flex::decompress(data, size).map_err(to_js_err)
 }
 #[wasm_bindgen(js_name = decompressLz4SizePrepended)]
 pub fn export_decompress_lz4_size_prepended(data: &[u8]) -> Result<Vec<u8>, JsError> {
-    decompress_size_prepended(data).map_err(to_js_err)
+    lz4_flex::decompress_size_prepended(data).map_err(to_js_err)
+}
+
+// LZMA
+#[wasm_bindgen(js_name = decompressLzmaWithSize)]
+pub fn export_decompress_lzma_with_size(data: &[u8], size: usize) -> Result<Vec<u8>, JsError> {
+    let mut data_with_size = Vec::with_capacity(data.len() + 8);
+    data_with_size.extend_from_slice(&data[..5]);
+    data_with_size.extend_from_slice(&(size as u64).to_le_bytes());
+    data_with_size.extend_from_slice(&data[5..]);
+
+    let mut out = Vec::new();
+    let result = lzma_rs::lzma_decompress(&mut Cursor::new(data_with_size), &mut out);
+
+    match result {
+        Ok(()) => Ok(out),
+        Err(e) => Err(to_js_err(e)),
+    }
+}
+#[wasm_bindgen(js_name = decompressLzma)]
+pub fn export_decompress_lzma(data: &[u8]) -> Result<Vec<u8>, JsError> {
+    let mut out = Vec::new();
+    let result = lzma_rs::lzma_decompress(&mut Cursor::new(data), &mut out);
+
+    match result {
+        Ok(()) => Ok(out),
+        Err(e) => Err(to_js_err(e)),
+    }
 }
